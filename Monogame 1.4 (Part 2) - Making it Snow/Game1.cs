@@ -23,7 +23,7 @@ namespace Monogame_1._4__Part_2____Making_it_Snow
 
         Vector2 fallSpeed;
 
-        List<Color> colors = new List<Color>() { Color.Thistle, Color.Red, Color.LightGoldenrodYellow, Color.Gainsboro };
+        List<Color> colors = new List<Color>() { Color.Thistle, Color.Red, Color.LightGoldenrodYellow, Color.Blue };
         List<Color> snowflakeColor = new List<Color>();
 
         public Game1()
