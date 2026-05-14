@@ -12,9 +12,11 @@ namespace Monogame_1._4__Part_2____Making_it_Snow
         private SpriteBatch _spriteBatch;
 
         Texture2D flake;
+        Texture2D box;
 
         Rectangle window;
         Rectangle tempSnowFlake;
+        Rectangle snowBox;
 
         Random generator = new Random();
         Random colorgenerator = new Random();
@@ -40,10 +42,12 @@ namespace Monogame_1._4__Part_2____Making_it_Snow
             _graphics.PreferredBackBufferHeight = window.Height;
             _graphics.ApplyChanges();
 
+            snowBox = new Rectangle(0, 490, window.Width, 10);
+
             snowFlakes = new List<Rectangle>();
 
             Rectangle tempSnowFlake;
-            for (int i = 0; i < 50; i++)
+            for (int i = 0; i < 500; i++)
             {
                 tempSnowFlake = new Rectangle(
                     generator.Next(window.Width),
@@ -64,6 +68,7 @@ namespace Monogame_1._4__Part_2____Making_it_Snow
             _spriteBatch = new SpriteBatch(GraphicsDevice);
 
             flake = Content.Load<Texture2D>("flake");
+            box = Content.Load<Texture2D>("box");
         }
 
         protected override void Update(GameTime gameTime)
@@ -72,12 +77,15 @@ namespace Monogame_1._4__Part_2____Making_it_Snow
                 Exit();
 
             for (int i = 0; i < snowFlakes.Count; i++)
-            {
-                snowFlakes[i] = new Rectangle(
-                    snowFlakes[i].X + (int)fallSpeed.X,
-                    snowFlakes[i].Y + (int)fallSpeed.Y,
-                    snowFlakes[i].Width,
-                    snowFlakes[i].Height);
+            { 
+                if (!snowFlakes[i].Intersects(snowBox))
+                {
+                    snowFlakes[i] = new Rectangle(
+                    snowFlakes[i].X,
+                    snowFlakes[i].Y + 2,
+                    8,
+                    8);
+                }
 
                 if (snowFlakes[i].Y > window.Height)
                 {
@@ -101,6 +109,7 @@ namespace Monogame_1._4__Part_2____Making_it_Snow
             {
                 _spriteBatch.Draw(flake, snowFlakes[i], snowflakeColor[i]);
             }
+            _spriteBatch.Draw(box, snowBox, Color.White);
             _spriteBatch.End();
 
             base.Draw(gameTime);
